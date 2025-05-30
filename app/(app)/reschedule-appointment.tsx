@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Calendar as CalendarIcon, Clock, ArrowLeft, CheckCircle2 } from 'lucide-react-native';
 import { useTheme } from '@/context/ThemeContext';
 import { router, useLocalSearchParams } from 'expo-router';
+import { useModal } from '@/context/ModalContext';
 
 // Mock time slots - could be fetched from API in a real app
 const timeSlots = [
@@ -65,6 +66,7 @@ export default function RescheduleAppointmentScreen() {
   const { colors } = useTheme();
   const params = useLocalSearchParams();
   const appointmentId = params.id as string;
+  const { showInfo } = useModal();
   
   const [appointment, setAppointment] = useState<any>(null);
   const [selectedDate, setSelectedDate] = useState<DateOption | null>(null);
@@ -87,16 +89,18 @@ export default function RescheduleAppointmentScreen() {
   const handleTimeSelect = (timeSlot: TimeSlot) => {
     setSelectedTime(timeSlot);
   };
-
   const handleReschedule = () => {
     // Here you would typically make an API call to reschedule the appointment
-    // For now, we'll just navigate back to the appointments screen
     
-    // Show success message (in a real app, you might want to use a toast or modal)
-    alert('Appointment rescheduled successfully!');
-    
-    // Navigate back to appointments screen
-    router.push('/appointments');
+    // Show success message using our new modal component
+    showInfo({
+      title: 'Success',
+      message: 'Appointment rescheduled successfully!',
+      onClose: () => {
+        // Navigate back to appointments screen after modal is closed
+        router.push('/appointments');
+      }
+    });
   };
 
   const goBack = () => {

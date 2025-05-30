@@ -8,7 +8,7 @@ export default function AuthLayout() {
       <Stack.Screen name="user-type" options={{ title: 'Select User Type' }} />
       <Stack.Screen name="patient-register" options={{ title: 'Patient Registration' }} />
       <Stack.Screen name="doctor-register" options={{ title: 'Doctor Registration' }} />
-      <Stack.Screen name="test-button" options={{ title: 'Button Test' }} />
+      {/* <Stack.Screen name="test-button" options={{ title: 'Button Test' }} /> */}
     </Stack>
   );
 }

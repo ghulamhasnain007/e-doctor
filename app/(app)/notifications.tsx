@@ -5,11 +5,13 @@ import { ArrowLeft, Bell, Calendar, MessageSquare, Clock, AlertCircle, FileText,
 import { useTheme } from '@/context/ThemeContext';
 import { useAuth } from '@/context/AuthContext';
 import { router } from 'expo-router';
-
+import { useModal } from '@/context/ModalContext';
+  
 export default function NotificationsScreen() {
   const { colors } = useTheme();
   const { userType } = useAuth();
-  
+  const { showInfo } = useModal();
+
   // Default notification settings
   const [notifications, setNotifications] = useState({
     // Common settings for both user types
@@ -92,7 +94,15 @@ const toggleEmailNotification = (key: EmailNotificationKey) => {
   const saveSettings = () => {
     // In a real app, this would save the settings to a backend
     alert('Notification settings saved successfully!');
-    router.back();
+    showInfo({
+      title: "Success",
+      message: "Notification settings saved successfully!",
+      buttonText: "OK",
+      onClose: () => {
+        router.back()
+      }
+    })
+    // router.back();
   };
 
   return (

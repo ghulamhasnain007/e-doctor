@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ArrowLeft, Shield, Eye, EyeOff, Lock, Key, Fingerprint, AlertTriangle, BellOff, User, UserX, Trash, FileText } from 'lucide-react-native';
 import { useTheme } from '@/context/ThemeContext';
 import { useAuth } from '@/context/AuthContext';
 import { router } from 'expo-router';
+import { useModal } from '@/context/ModalContext';
 
 export default function PrivacySecurityScreen() {
   const { colors } = useTheme();
   const { logout } = useAuth();
+  const { showInfo, showConfirmation } = useModal();
   
   // Privacy settings
   const [privacySettings, setPrivacySettings] = useState<PrivacySettings>({
@@ -61,10 +63,13 @@ const toggleSecuritySetting = (key: SecuritySettingKey) => {
         [key]: !prev[key]
     }));
 };
-  
-  const changePassword = () => {
+    const changePassword = () => {
     // In a real app, this would navigate to a password change screen
-    alert('Navigate to password change screen');
+    showInfo({
+      title: 'Change Password',
+      message: 'This would navigate to the password change screen in a complete app.',
+      buttonText: 'OK'
+    });
   };
   
 interface HandleProfileVisibilityChange {
@@ -77,33 +82,29 @@ const handleProfileVisibilityChange: HandleProfileVisibilityChange = (value) => 
         profileVisibility: value
     }));
 };
-  
-  const handleDeleteAccount = () => {
-    Alert.alert(
-      'Delete Account',
-      'Are you sure you want to delete your account? This action cannot be undone.',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: () => {
-            // In a real app, this would call an API to delete the account
-            logout();
-            router.replace('/welcome');
-          },
-        },
-      ]
-    );
+    const handleDeleteAccount = () => {
+    showConfirmation({
+      title: 'Delete Account',
+      message: 'Are you sure you want to delete your account? This action cannot be undone.',
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      isDestructive: true,
+      onConfirm: () => {
+        // In a real app, this would call an API to delete the account
+        logout();
+        router.replace('/welcome');
+      }
+    });
   };
-  
-  const saveSettings = () => {
+    const saveSettings = () => {
     // In a real app, this would save the settings to a backend
-    alert('Privacy and security settings saved successfully!');
-    router.back();
+    showInfo({
+      title: 'Success',
+      message: 'Privacy and security settings saved successfully!',
+      onClose: () => {
+        router.back();
+      }
+    });
   };
 
   return (

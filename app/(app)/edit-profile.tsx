@@ -5,10 +5,12 @@ import { ArrowLeft, Camera, Mail, Phone, MapPin, Calendar, Droplet, AlertCircle 
 import { useTheme } from '@/context/ThemeContext';
 import { useAuth } from '@/context/AuthContext';
 import { router } from 'expo-router';
+import { useModal } from '@/context/ModalContext';
 
 export default function EditProfileScreen() {
   const { colors } = useTheme();
   const { userType, user } = useAuth();
+  const { showInfo } = useModal();
   
   // Patient form state
   const [patientForm, setPatientForm] = useState({
@@ -45,7 +47,12 @@ export default function EditProfileScreen() {
   const handleSaveChanges = () => {
     // In a real app, this would update the user profile
     // via an API call or other state management
-    alert('Profile updated successfully!');
+    // alert('Profile updated successfully!');
+    showInfo({
+      title: 'Profile Updated',
+      message: 'Your profile has been updated successfully.',
+      buttonText: 'OK',
+    });
     router.back();
   };
   

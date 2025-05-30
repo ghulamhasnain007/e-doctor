@@ -24,13 +24,13 @@ export default function WelcomeScreen() {
     }, 100);
   };
 
-  const navigateToTest = () => {
-    console.log("Test button pressed");
-    // Navigate to the test screen
-    setTimeout(() => {
-      router.push('/test-button');
-    }, 100);
-  };
+  // const navigateToTest = () => {
+  //   console.log("Test button pressed");
+  //   // Navigate to the test screen
+  //   setTimeout(() => {
+  //     router.push('/test-button');
+  //   }, 100);
+  // };
 
   return (
     <LinearGradient
@@ -87,7 +87,7 @@ export default function WelcomeScreen() {
           />
           
           {/* Test button - added for debugging */}
-          <AppButton
+          {/* <AppButton
             title="Test Buttons"
             backgroundColor={colors.white}
             textColor="red"
@@ -103,7 +103,7 @@ export default function WelcomeScreen() {
               shadowRadius: 6,
               elevation: 2,
             }}
-          />
+          /> */}
         </View>
       </SafeAreaView>
     </LinearGradient>
